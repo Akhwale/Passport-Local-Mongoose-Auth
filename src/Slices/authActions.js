@@ -2,29 +2,43 @@
 import { login, logout } from './authSlice';
 import axios from 'axios';
 
-import axios from 'axios';
-import { login } from './authSlice'; // Assuming you have a login action
+
+// authActions.js
 
 export const registerUser = (userData) => async (dispatch) => {
   try {
+    console.log('Attempting registration...');
     const response = await axios.post('http://localhost:5000/user/register', userData);
 
-    // Handle registration success
+    console.log('Registration response:', response);
+
     if (response.status === 200) {
-      // Dispatch a login action if the user is automatically logged in after registration
-      // Here, 'response.data' might contain user data after registration; you can adapt this based on your API response
+      console.log('Registration successful');
+      // Dispatch an action to update the user state if needed.
       dispatch(login(response.data));
+      return { success: 'Registration successful' };
     } else {
-      // Handle registration failure, e.g., dispatch an error action
-      // Depending on your API response structure, you can extract error messages here
-      // dispatch(registerError(response.data.error)); // Create a registerError action if needed
+      console.error('Registration failed. Status:', response.status);
+      if (response.data && response.data.error) {
+        console.error('Error message:', response.data.error);
+      }
+      // Return an error message.
+      return { error: 'Registration failed' };
     }
   } catch (error) {
-    // Handle registration error, e.g., dispatch an error action
     console.error('Registration error:', error);
-    // dispatch(registerError('An error occurred during registration')); // Create a registerError action if needed
+    // Handle any error that occurs during the registration process and return an error message.
+    return { error: 'Registration failed' };
   }
 };
+
+
+
+
+
+
+
+
 
 
 
@@ -63,3 +77,5 @@ export const logoutUser = () => async (dispatch) => {
     console.error('Logout error:', error);
   }
 };
+
+
