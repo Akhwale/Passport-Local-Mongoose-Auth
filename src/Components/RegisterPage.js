@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom'; // Import useHistory from react-router-dom
-import { registerUser } from '../Slices/authActions';
+import { registerUser } from '../Slices/authSlice';
 
 export default function RegistrationPage() {
   const dispatch = useDispatch();
